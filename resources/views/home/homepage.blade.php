@@ -39,7 +39,13 @@
             <div class="flex items-center space-x-3">
                 <img src="https://via.placeholder.com/40" class="rounded-full" alt="User Avatar">
                 <div>
-                    <p class="text-sm font-semibold">Hello, Elenor</p>
+                    <p class="text-sm font-semibold">
+                    @if(Auth::check())
+                    Hello, {{ Auth::user()->name }}
+                    @else
+                    Hello, Guest
+                    @endif
+                    </p>
                     <a href="#" class="text-red-400 text-xs">Logout</a>
                 </div>
             </div>
