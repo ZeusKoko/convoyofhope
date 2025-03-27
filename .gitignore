@@ -21,9 +21,3 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-/vendor
-/node_modules
-.env
-/storage/oauth-private.key
-/storage/oauth-public.key
-/public/storage
