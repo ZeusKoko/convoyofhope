@@ -9,10 +9,11 @@
     <meta name="description" content="">
 
     <!--====== Title ======-->
-    <title>Admin Dashboard</title>
+    <title>manage users</title>
 
     <!--====== Favicon Icon ======-->
-    <link rel="shortcut icon" href="{{asset('assets/images/icons/favicon.png')}}" type="image/png">
+    <link rel="icon" href="data:,">
+
 
 
     <!--====== Google Fonts ======-->
@@ -75,22 +76,12 @@
                     </div>
                 </div>
                 <!--   For Toggle Mobile Nav icon -->
-                <div class="for-mobile d-mobile">
-                    <div class= "toggle-button" id = "toggle-button">
-                <span class="material-icons">
-                menu
-                </span>
-                    </div>
 
-
-
-
-
-
+            </nav>
         </div>
-
     </div>
 </header>
+
 <!--====== End Header Section======-->
 
 
@@ -103,9 +94,9 @@
         <aside>
             <div class="left-sidebar" id="wrapper-sidebar">
                 <ul>
-                    <li><a href=""><i class="material-icons">home</i>Dashboard</a></li>
-                    <li><a href=""><i class="material-icons">supervisor_account</i>Users</a></li>
-                    <li><a href=""><i class="material-icons">perm_data_setting</i>Role</a></li>
+                    <li><a href="{{route('index')}}"><i class="material-icons">home</i>Dashboard</a></li>
+                    <li><a href="{{route('users')}}"><i class="material-icons">supervisor_account</i>Users</a></li>
+                    <li><a href="{{route('role')}}"><i class="material-icons">perm_data_setting</i>Roles</a></li>
                 </ul>
             </div>
         </aside>

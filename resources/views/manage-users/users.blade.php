@@ -9,36 +9,39 @@
     <meta name="description" content="">
 
     <!--====== Title ======-->
-    <title>Admin Dashboard</title>
+    <title>manage users</title>
 
     <!--====== Favicon Icon ======-->
-    <link rel="shortcut icon" href="assets/images/icons/favicon.png" type="image/png">
+    <link rel="icon" href="data:,">
+
 
 
     <!--====== Google Fonts ======-->
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
     <!--====== Material Icons ======-->
-    <link rel="stylesheet" href="assets/iconfont/material-icons.css">
+    <link rel="stylesheet" href="{{asset('assets/iconfont/material-icons.css')}}">
 
     <!-- dataTables.bootstrap4.min css-->
-    <link href="assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" media="screen">
+    <link href="{{asset('assets/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" media="screen">
 
-    <!-- Chart.min css-->
-    <link href="assets/css/Chart.min.css" rel="stylesheet" media="screen">
+
+
 
     <!-- animate css-->
-    <link href="assets/css/animate.css" rel="stylesheet" media="screen">
-    <!-- normalize css-->
-    <link href="assets/css/normalize.css" rel="stylesheet" media="screen">
+    <link href="{{asset('assets/css/animate.css')}}" rel="stylesheet" media="screen">
+
     <!--====== Bootstrap css ======-->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
 
     <!--====== Style css ======-->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/sidebar.css')}}">
     <!--====== Responsive css ======-->
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+
+    <!--====== CkEditors js ======-->
+    <link rel="stylesheet" href="{{asset('assets/js/ckeditor.js')}}">
 
 
 </head>
@@ -71,14 +74,7 @@
             </div>
           </div>
         <!--   For Toggle Mobile Nav icon -->
-          <div class="for-mobile d-mobile">
-              <div class= "toggle-button" id = "toggle-button">
-                <span class="material-icons">
-                menu
-                </span>
-              </div>
 
-          </div>
               <!--   For Toggle Mobile Nav Icon -->
 
           <div class="collapse navbar-collapse pr-3" id="#">
@@ -90,7 +86,7 @@
                   admin@admin.com
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a href="{{route('manage-users.account')}}" class="dropdown-item">
+                  <a href="" class="dropdown-item">
                     <i class="material-icons">
                     supervisor_account
                     </i>
@@ -108,19 +104,7 @@
 
       </div>
     <!--   For Toggle Mobile Nav -->
-     <div class="toggle-user-menu" id = "toggle-user-menu">
-        <ul>
-          <li><a href="#"><div class="user-photo"><img src="https://dw3i9sxi97owk.cloudfront.net/uploads/thumbs/db9c4e1327eb8fe5e9395a4b04e1ea4a_70x70.jpg" alt=""></div>admin@admin.com</a></li>
-          <li><a href="">
-            <i class="material-icons mr-2">
-                    supervisor_account
-                    </i>
-                  Account Settings
-                </a></li>
-          <li><a href=""><i class="material-icons mr-2">exit_to_app</i>Logout</a></li>
 
-        </ul>
-      </div>
     <!--   For Toggle Mobile Nav -->
     </div>
 </header>
@@ -134,9 +118,9 @@
             <aside>
               <div class="left-sidebar" id="wrapper-sidebar">
                 <ul>
-                  <li><a href="{{route('manage-users.index')}}"><i class="material-icons">home</i>Dashboard</a></li>
-                  <li><a href="{{route('manage-users.users')}}"><i class="material-icons">supervisor_account</i>Users</a></li>
-                  <li><a href="{{route('manage-users.role')}}"><i class="material-icons">perm_data_setting</i>Role</a></li>
+                  <li><a href="{{route('index')}}"><i class="material-icons">home</i>Dashboard</a></li>
+                  <li><a href="{{route('users')}}"><i class="material-icons">supervisor_account</i>Users</a></li>
+                  <li><a href="{{route('role')}}"><i class="material-icons">perm_data_setting</i>Role</a></li>
 
 
 
@@ -593,26 +577,26 @@
 
 
 
-    <!--====== JQuery from CDN ======-->
-    <script src="assets/js/jquery.min.js"></script>
+<!--====== JQuery from CDN ======-->
+<script src="{{asset('assets/js/jquery.min.js')}}"></script>
 
-    <!--====== Bootstrap js ======-->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
+<!--====== Bootstrap js ======-->
+<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('assets/js/popper.min.js')}}"></script>
 
-    <!--====== dataTables js ======-->
-    <script src="assets/js/dataTables.bootstrap4.min.js"></script>
-    <script src="assets/js/jquery.dataTables.min.js"></script>
+<!--====== dataTables js ======-->
+<script src="{{asset('assets/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/js/jquery.dataTables.min.js')}}"></script>
 
-    <!--====== Chart.min js ======-->
-    <script src="assets/js/Chart.min.js"></script>
-    <script src="assets/js/Chart.bundle.min.js"></script>
-    <script src="assets/js/chartfunction.js"></script>
+<!--====== Chart.min js ======-->
+<script src="{{asset('assets/js/Chart.min.js')}}"></script>
+<script src="{{asset('assets/js/Chart.bundle.min.js')}}"></script>
+<script src="{{asset('assets/js/chartfunction.js')}}"></script>
 
-    <!--====== wow.min js ======-->
-    <script src="assets/js/wow.min.js"></script>
-    <!--====== Main js ======-->
-    <script src="assets/js/script.js"></script>
+<!--====== wow.min js ======-->
+<script src="{{asset('assets/js/wow.min.js')}}"></script>
+<!--====== Main js ======-->
+<script src="{{asset('assets/js/script.js')}}"></script>
 
     <script>
         var color = Chart.helpers.color;
