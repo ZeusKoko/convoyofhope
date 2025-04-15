@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <h1>convoy of hope</h1>
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -62,4 +62,5 @@
             </div>
         </form>
     </x-authentication-card>
+    </div>
 </x-guest-layout>

@@ -59,43 +59,25 @@
     <div class="header">
 
 
-      <div class="navigation">
-        <nav class="navbar navbar-expand-lg navbar-bg">
+        <div class="navigation">
+            <nav class="navbar navbar-expand-lg navbar-bg">
 
-          <div class="brand-logo">
-            <a class="navbar-brand" href="index.html" id="menu-action">
-              <div class="user-photo d-desktop"><img src="assets/images/icons/favicon.png" alt=""></div>
-              <span>manage users</span>
-            </a>
-            <div id="nav-toggle">
-                <div class="cta">
-                    <div class="toggle-btn type1"></div>
+                <div class="brand-logo">
+                    <a class="navbar-brand" href="index.html" id="menu-action">
+                    </a>
+                    <div id="nav-toggle">
+                        <div class="cta">
+                            <div class="toggle-btn type1"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-          </div>
         <!--   For Toggle Mobile Nav icon -->
 
               <!--   For Toggle Mobile Nav Icon -->
 
           <div class="collapse navbar-collapse pr-3" id="#">
 
-            <ul class="navbar-nav user-info ml-auto mt-2 mt-lg-0">
-              <li class="nav-item dropdown show">
-                <a href="#" class="navbar-nav-link dropdown-toggle text-light" data-toggle="dropdown" aria-expanded="true">
-                  <div class="user-photo"><img src="https://dw3i9sxi97owk.cloudfront.net/uploads/thumbs/db9c4e1327eb8fe5e9395a4b04e1ea4a_70x70.jpg" alt=""></div>
-                  admin@admin.com
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a href="" class="dropdown-item">
-                    <i class="material-icons">
-                    supervisor_account
-                    </i>
-                  Account Settings</a>
-                  <div class="menu-dropdown-divider"></div>
-                  <a class="dropdown-item" href=""><i class="material-icons">exit_to_app</i>Logout</a>
-                </div>
-              </li>
-            </ul>
+
 
           </div>
 
@@ -121,10 +103,10 @@
                   <li><a href="{{route('index')}}"><i class="material-icons">home</i>Dashboard</a></li>
                   <li><a href="{{route('users')}}"><i class="material-icons">supervisor_account</i>Users</a></li>
                   <li><a href="{{route('role')}}"><i class="material-icons">perm_data_setting</i>Role</a></li>
-
-
-
-                  </li>
+                    <li><a href="{{ route('admin.index') }}" class="btn btn-danger">
+                            Exit to Admin Dashboard
+                        </a>
+                    </li>
 
                   </ul>
               </div>
@@ -151,8 +133,8 @@
               </ol>
             </nav>
             <div class="create-item">
-                <a href="adduser.html" class="theme-primary-btn btn btn-primary"><i class="material-icons">add</i>Create user</a>
-                <a href="adduser.html" name='export' class=" btn btn-secondary"><i class="material-icons">add</i>Export Execel</a>
+                <a href="" class="theme-primary-btn btn btn-primary"><i class="material-icons">add</i>Create user</a>
+                <a href="" name='export' class=" btn btn-secondary"><i class="material-icons">add</i>Export Execel</a>
             </div>
         </div>
           <!--  Header BreadCrumb -->
@@ -170,7 +152,7 @@
                           <table id="usersTable" class="table table-striped table-borderless" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>SL</th>
+                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
@@ -178,380 +160,25 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
+                              <tbody>
+                              @foreach($users as $user)
+                                  <tr>
+                                      <td>{{ $user->id }}</td>
+                                      <td>{{ $user->name }}</td>
+                                      <td>{{ $user->email }}</td>
+                                      <td>{{ $user->usertype }}</td>
+                                      <td>
+                                          @if(\Carbon\Carbon::parse($user->last_seen)->diffInMinutes(now()) < 5)
+                                              <span style="color: green;">Online</span>
+                                          @else
+                                              <span style="color: gray;">Offline</span>
+                                          @endif
+                                      </td>
 
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Nababur Rahaman</td>
-                                    <td>example@gmail.com</td>
-                                    <td><span class="badge badge-lg badge-secondary text-white">Admin</span></td>
-                                    <td><span class="badge badge-lg badge-success text-white">Active</span></td>
-                                    <td><a class="btn btn-sm btn-secondary" href="viewuser.html">View user</a>  <a class="btn btn-sm btn-info" href="">Edit</a> <a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                                </tr>
-
-
-
-
-                        </table>
+                                  </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
                       </div>
                     </div>
                 </div>

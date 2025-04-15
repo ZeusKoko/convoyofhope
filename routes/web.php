@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/manage-users/users', [ManageUsersController::class, 'users'])->name('users');
     Route::get('/admin/manage-users/role', [ManageUsersController::class, 'role'])->name('role');
     Route::get('/admin/manage-users/index', [ManageUsersController::class, 'index'])->name('index');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 });
 
 

@@ -97,6 +97,11 @@
                     <li><a href="{{route('index')}}"><i class="material-icons">home</i>Dashboard</a></li>
                     <li><a href="{{route('users')}}"><i class="material-icons">supervisor_account</i>Users</a></li>
                     <li><a href="{{route('role')}}"><i class="material-icons">perm_data_setting</i>Roles</a></li>
+                    <li><a href="{{ route('admin.index') }}" class="btn btn-danger">
+                        Exit to Admin Dashboard
+                    </a>
+                    </li>
+
                 </ul>
             </div>
         </aside>

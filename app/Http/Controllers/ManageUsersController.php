@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ManageUsersController extends Controller
+
 
 {
     public function users()
     {
-        return view('manage-users.users');
+        $users = User::where('usertype', 'user')->get(); // Fetch only users, not admins
+        return view('manage-users.users', compact('users')); // ✅ Pass users to the view
     }
     public function role()
     {
@@ -19,6 +22,11 @@ class ManageUsersController extends Controller
     {
         return view('manage-users.index');
     }
+    public function admin()
+    {
+        return view('admin.index');
+    }
+
 }
 
 
