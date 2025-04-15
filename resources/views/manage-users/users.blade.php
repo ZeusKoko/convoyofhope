@@ -168,10 +168,10 @@
                                       <td>{{ $user->email }}</td>
                                       <td>{{ $user->usertype }}</td>
                                       <td>
-                                          @if(\Carbon\Carbon::parse($user->last_seen)->diffInMinutes(now()) < 5)
+                                          @if(\Carbon\Carbon::parse($user->last_seen)->diffInMinutes(now()) < 1)
                                               <span style="color: green;">Online</span>
                                           @else
-                                              <span style="color: gray;">Offline</span>
+                                              <span style="color: red;">Offline</span>
                                           @endif
                                       </td>
 
