@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use illuminate\Support\Facades\Auth;
 
+
+
 class AdminController extends Controller
 {
     public function index()
@@ -32,5 +34,6 @@ class AdminController extends Controller
         $users = \App\Models\User::all(); // Or paginate, if needed
         return view('manage-users/index', compact('users'));
     }
+
 
 }

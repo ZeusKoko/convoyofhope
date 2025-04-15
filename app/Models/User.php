@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'phone',
         'usertype',
+        'status',
     ];
 
     /**
@@ -66,4 +67,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    protected $dates = ['last_seen'];
+
 }
