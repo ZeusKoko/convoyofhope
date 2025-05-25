@@ -133,8 +133,15 @@
               </ol>
             </nav>
             <div class="create-item">
-                <a href="" class="theme-primary-btn btn btn-primary"><i class="material-icons">add</i>Create user</a>
-                <a href="" name='export' class=" btn btn-secondary"><i class="material-icons">add</i>Export Execel</a>
+                <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerUserModal">
+
+    <i class="material-icons">add</i> Create User
+</button>
+
+  
+
+                <a href="{{ route('export.users.word') }}" name='export' class=" btn btn-secondary"><i class="material-icons">add</i>Export</a>
             </div>
         </div>
           <!--  Header BreadCrumb -->
@@ -156,8 +163,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    
                                 </tr>
                             </thead>
                               <tbody>
@@ -168,11 +174,8 @@
                                       <td>{{ $user->email }}</td>
                                       <td>{{ $user->usertype }}</td>
                                       <td>
-                                          @if(\Carbon\Carbon::parse($user->last_seen)->diffInMinutes(now()) < 1)
-                                              <span style="color: green;">Online</span>
-                                          @else
-                                              <span style="color: red;">Offline</span>
-                                          @endif
+                          
+
                                       </td>
 
                                   </tr>
@@ -302,6 +305,52 @@
             });
         };
     </script>
+<!-- Register User Modal -->
+<div class="modal fade" id="registerUserModal" tabindex="-1" aria-labelledby="registerUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" action="{{ url('/admin/manage-users/store-user') }}">
+      @csrf
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="registerUserModalLabel">Register New User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>phone</label>
+            <input type="text" name="phone" required placeholder="Phone">
+
+        </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required minlength="6">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+
+          <button type="submit" class="btn btn-primary">Register User</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>

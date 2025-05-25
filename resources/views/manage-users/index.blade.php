@@ -131,10 +131,6 @@
         <!--  Header BreadCrumb -->
         <!--  main-content -->
         <div class="main-content">
-
-
-
-            <!-- Dashboard Box -->
             <div class="row animated fadeInUp">
                 <div class="col-xl-3 col-sm-6 mb-3">
                     <div class="card text-orange-600 bg-info o-hidden h-100">
@@ -142,82 +138,46 @@
                             <div class="card-body-icon">
                                 <i class="material-icons float-right text-orange-600 md-5em">group_add</i>
                             </div>
-                            <div class="mr-5">( 123 )New Users</div>
+                            <div class="mr-5">New Users: <span id="new-user-count">0</span></div>
                         </div>
-                        <a class="card-footer text-orange-400 clearfix small z-1" href="#">
+                        <a class="card-footer text-orange-400 clearfix small z-1" href="javascript:void(0);" onclick="fetchNewUserDetails()">
                             <span class="float-left">View Details</span>
-                            <span class="float-right">
-                    <i class="material-icons">
-    keyboard_arrow_right
-    </i>
-                  </span>
+                            <span class="float-right"><i class="material-icons">keyboard_arrow_right</i></span>
                         </a>
                     </div>
                 </div>
+
                 <div class="col-xl-3 col-sm-6 mb-3">
                     <div class="card text-white bg-primary o-hidden h-100">
                         <div class="card-body">
                             <div class="card-body-icon">
                                 <i class="material-icons float-right text-white md-5em">supervisor_account</i>
                             </div>
-                            <div class="mr-5">( 123 )Active Users</div>
+                            <div class="mr-5">( 123 ) Active Users</div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" href="#">
                             <span class="float-left">View Details</span>
-                            <span class="float-right">
-                    <i class="material-icons">
-    keyboard_arrow_right
-    </i>
-                  </span>
+                            <span class="float-right"><i class="material-icons">keyboard_arrow_right</i></span>
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-3">
-                    <div class="card text-white bg-danger o-hidden h-100">
-                        <div class="card-body">
-                            <div class="card-body-icon">
-                                <i class="material-icons float-right text-white md-5em">person_outline</i>
-                            </div>
-                            <div class="mr-5">( 123 )Banned Users</div>
-                        </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
-                            <span class="float-left">View Details</span>
-                            <span class="float-right">
-                   <i class="material-icons">
-    keyboard_arrow_right
-    </i>
-                  </span>
-                        </a>
-                    </div>
-                </div>
+
                 <div class="col-xl-3 col-sm-6 mb-3">
                     <div class="card text-white bg-success o-hidden h-100">
                         <div class="card-body">
                             <div class="card-body-icon">
                                 <i class="material-icons float-right text-white md-5em">people_outline</i>
                             </div>
-                            <div class="mr-5">( 123 )Total Users</div>
+                            <div class="mr-5">Total Users: <span id="userCount">Loading...</span></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
+                        <a class="card-footer text-white clearfix small z-1" href="javascript:void(0);" onclick="fetchTotalUserDetails()">
                             <span class="float-left">View Details</span>
-                            <span class="float-right">
-                    <i class="material-icons">
-    keyboard_arrow_right
-    </i>
-                  </span>
+                            <span class="float-right"><i class="material-icons">keyboard_arrow_right</i></span>
                         </a>
                     </div>
                 </div>
             </div>
             <!-- Dashboard Box -->
-
-
-
-
-
-
-
-
             <div class="row mt-3">
 
 
@@ -406,6 +366,144 @@
         });
     };
 </script>
+<!--  Modal Overlay -->
+<div id="userModal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999; /* Increase z-index to ensure visibility */
+    overflow-y: auto;
+">
+    <div style="
+        background: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        z-index: 10000; /* Ensure modal content is above overlay */
+    ">
+        <h4 class="mb-3 text-orange-600">New Users </h4>
+        <ul id="user-detail-list" class="mb-3 pl-3" style="max-height:300px; overflow-y:auto;"></ul>
+        <button onclick="closeModal()" class="btn btn-sm btn-danger float-right">Close</button>
+        
+</div>
 
+<!-- Modal Overlay -->
+<div id="userModal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+    overflow-y: auto;
+">
+    <div style="
+        background: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+    ">
+        <button onclick="closeModal()" style="
+            float: right;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        ">Close</button>
+        <h4>User Details</h4>
+        <ul id="user-detail-list">
+            <!-- JS will populate this -->
+        </ul>
+    </div>
+</div>
+<script>
+  function fetchNewUserCount() {
+        fetch('/new-user-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('new-user-count').textContent = data.new_user_count;
+            })
+            .catch(error => console.error('Error fetching new user count:', error));
+    }
+
+    // Fetch count immediately on page load
+    fetchNewUserCount();
+
+    // Refresh every 10 seconds
+    setInterval(fetchNewUserCount, 10000); // 10000 ms = 10 seconds
+
+    function fetchNewUserCount() {
+        fetch('/new-user-count')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('new-user-count').textContent = data.new_user_count;
+            });
+    }
+
+    function fetchNewUserDetails() {
+        fetch('/new-user-details')
+            .then(res => res.json())
+            .then(users => {
+                const list = document.getElementById('user-detail-list');
+                list.innerHTML = '';
+                if (users.length === 0) {
+                    list.innerHTML = '<li>No new users this week.</li>';
+                } else {
+                    users.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = `${user.name} (${user.email}) - Joined: ${new Date(user.created_at).toLocaleString()}`;
+                        list.appendChild(li);
+                    });
+                }
+                document.getElementById('userModal').style.display = 'block';
+            });
+    }
+
+    function fetchTotalUserDetails() {
+        fetch('/total-user-details')
+            .then(res => res.json())
+            .then(users => {
+                const list = document.getElementById('user-detail-list');
+                list.innerHTML = '';
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `${user.name} (${user.email}) - Joined: ${new Date(user.created_at).toLocaleString()}`;
+                    list.appendChild(li);
+                });
+                document.getElementById('userModal').style.display = 'block';
+            });
+    }
+
+    function fetchUserCount() {
+        fetch('/user-count')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('userCount').textContent = data.count;
+            });
+    }
+
+    function closeModal() {
+        document.getElementById('userModal').style.display = 'none';
+    }
+
+    fetchNewUserCount();
+    fetchUserCount();
+    setInterval(fetchNewUserCount, 10000);
+    setInterval(fetchUserCount, 5000);
+</script>
 </body>
 </html>
