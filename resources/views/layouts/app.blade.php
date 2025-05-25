@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
         <!-- Styles -->
         @livewireStyles
@@ -34,7 +36,10 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+               <main>
+    @yield('content')
+</main>
+
             </main>
         </div>
 

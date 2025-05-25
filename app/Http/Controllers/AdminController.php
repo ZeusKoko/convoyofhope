@@ -31,9 +31,55 @@ class AdminController extends Controller
     }
     public function manageUsers()
     {
-        $users = \App\Models\User::all(); // Or paginate, if needed
+        $users = \App\Models\User::all(); 
         return view('manage-users/index', compact('users'));
     }
+public function createUser()
+{
+    return view('admin.register_user'); 
+}
 
+public function storeUser(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6',
+    ]);
+
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'role' => 'user',
+    ]);
+
+    return redirect()->back()->with('success', 'User registered.');
+}
+
+public function createStaff()
+{
+    return view('admin.register_staff'); // another form
+}
+
+public function storeStaff(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6',
+    ]);
+
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'role' => 'staff',
+    ]);
+
+    return redirect()->back()->with('success', 'Staff registered.');
+}
+
+//controller reg
 
 }
