@@ -22,9 +22,6 @@ class HomeController extends Controller
             {
                 return view('admin.adminhome');
             }
-            elseif ($user->usertype == 'staff') {
-                return redirect('home.staff');
-            }
             else
             {
                 return redirect()->back();

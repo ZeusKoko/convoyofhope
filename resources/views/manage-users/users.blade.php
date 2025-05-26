@@ -157,31 +157,25 @@
                     <div class="card-body mt-3">
                       <div class="table-responsive">
                           <table id="usersTable" class="table table-striped table-borderless" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    
-                                </tr>
-                            </thead>
-                              <tbody>
-                              @foreach($users as $user)
-                                  <tr>
-                                      <td>{{ $user->id }}</td>
-                                      <td>{{ $user->name }}</td>
-                                      <td>{{ $user->email }}</td>
-                                      <td>{{ $user->usertype }}</td>
-                                      <td>
-                          
-
-                                      </td>
-
-                                  </tr>
-                              @endforeach
-                            </tbody>
-                          </table>
+                           <thead class="table-warning">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($users as $user)
+        <tr>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td class="text-capitalize">{{ $user->usertype }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
                       </div>
                     </div>
                 </div>

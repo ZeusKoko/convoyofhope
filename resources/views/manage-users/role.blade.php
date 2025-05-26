@@ -156,30 +156,25 @@
                     <div class="card-body mt-3">
                       <div class="table-responsive">
                           <table id="roleTable" class="table table-striped table-borderless" style="width:100%">
-                            <thead>
-                            <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>@foreach($users as $user)
-                                  <tr>
-                                      <td>{{ $user->id }}</td>
-                                      <td>{{ $user->name }}</td>
-                                      <td>{{ $user->email }}</td>
-                                      <td>{{ $user->usertype }}</td>
-                                      <td>
-                                    
-
-
-                                      </td>
-
-                                  </tr>
-                              @endforeach
-                        </table>
+                            <thead class="table-warning">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($users as $user)
+        <tr>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td class="text-capitalize">{{ $user->usertype }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
                       </div>
                     </div>
                 </div>
@@ -316,12 +311,12 @@
         <h5 class="modal-title" id="registerStaffModalLabel">Register Staff</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form method="POST" action="">
+      <form method="POST" action="{{ route('admin.store.staff') }}">
 
         @csrf
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label class="form-label">Name</label> 
             <input type="text" name="name" class="form-control" required>
           </div>
           <div class="mb-3">
