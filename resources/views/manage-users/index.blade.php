@@ -153,7 +153,7 @@
                             <div class="card-body-icon">
                                 <i class="material-icons float-right text-white md-5em">supervisor_account</i>
                             </div>
-                            <div class="mr-5">( 123 ) Active Users</div>
+                            <div class="mr-5">( not intergrated yet ) Active Users</div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" href="#">
                             <span class="float-left">View Details</span>
@@ -186,17 +186,7 @@
                         <div class="card-header">Github Users</div>
                         <div class="card-body">
                             <table class="table table-striped">
-                                <tbody>
-                                <tr>
-                                    <td><a href="">yash</a></td>
-                                    <td width="1" class="nowrap">Date</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="">test</a></td>
-                                    <td width="1" class="">Date</td>
-                                </tr>
-
-                                </tbody>
+                                
                             </table>
                         </div>
                     </div>
@@ -208,17 +198,7 @@
                         <div class="card-header">Facebook Users</div>
                         <div class="card-body">
                             <table class="table table-striped">
-                                <tbody>
-                                <tr>
-                                    <td><a href="">yash</a></td>
-                                    <td width="1" class="nowrap">Date</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="">test</a></td>
-                                    <td width="1" class="">Date</td>
-                                </tr>
-
-                                </tbody>
+                                
                             </table>
                         </div>
                     </div>
@@ -229,17 +209,7 @@
                         <div class="card-header">Gmail Users</div>
                         <div class="card-body">
                             <table class="table table-striped">
-                                <tbody>
-                                <tr>
-                                    <td><a href="">yash</a></td>
-                                    <td width="1" class="nowrap">Date</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="">test</a></td>
-                                    <td width="1" class="">Date</td>
-                                </tr>
-
-                                </tbody>
+                             
                             </table>
                         </div>
                     </div>
@@ -389,7 +359,7 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         z-index: 10000; /* Ensure modal content is above overlay */
     ">
-        <h4 class="mb-3 text-orange-600">New Users </h4>
+        <h4 class="mb-3 text-orange-600"> Users </h4>
         <ul id="user-detail-list" class="mb-3 pl-3" style="max-height:300px; overflow-y:auto;"></ul>
         <button onclick="closeModal()" class="btn btn-sm btn-danger float-right">Close</button>
         

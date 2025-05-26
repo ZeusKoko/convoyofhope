@@ -68,6 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //protect registration
 
 Route::post('/admin/manage-users/store-user', [ManageUsersController::class, 'storeUser']);
+Route::post('/admin/manage-users/store-staff', [ManageUsersController::class, 'store'])->name('admin.store.staff');
 
 
 

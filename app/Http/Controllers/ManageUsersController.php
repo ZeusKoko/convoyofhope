@@ -18,7 +18,7 @@ class ManageUsersController extends Controller
 
     public function role()
     {
-        $users = User::where('usertype', 'admin')->get();
+        $users = User::whereIn('usertype', ['admin', 'staff'])->get();
         return view('manage-users.role', compact('users'));
     }
 
@@ -72,7 +72,7 @@ class ManageUsersController extends Controller
         'name' => $request->name,
         'email' => $request->email,
         'phone' => $request->phone,
-        'password' => Hash::make($request->password),
+        'password' =>bcrypt($request->password),
         'usertype' => 'staff', // Force staff role here
     ]);
 
@@ -81,25 +81,7 @@ class ManageUsersController extends Controller
 
 
 
-public function storeStaff(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'phone' => 'required|string',
-        'password' => 'required|confirmed|min:6',
-    ]);
 
-    $user = new User();
-    $user->name = $validated['name'];
-    $user->email = $validated['email'];
-    $user->phone = $validated['phone'];
-    $user->password = bcrypt($validated['password']);
-    $user->usertype = 'staff'; // set role
-    $user->save();
-
-    return redirect()->back()->with('success', 'Staff registered successfully.');
-}
 
     //export docx
     public function exportUsersToWord()
