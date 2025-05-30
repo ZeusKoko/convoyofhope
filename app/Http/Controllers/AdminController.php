@@ -17,11 +17,15 @@ class AdminController extends Controller
             $usertype= Auth()->user()->usertype;
             if($usertype == 'user')
             {
-                return view('dashboard');
+                return view('home.user');
             }
             else if($usertype == 'admin')
             {
                 return view('admin.index');
+            }
+            else if($usertype == 'staff')
+            {
+                return view('home.staff');
             }
             else
             {

@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * This is used to redirect users after login.
      */
-    public const HOME = '/homepage'; // Change this to your preferred homepage route
+    public const HOME = 'home'; // Change this to your preferred homepage route
 
     /**
      * Define your route model bindings, pattern filters, etc.

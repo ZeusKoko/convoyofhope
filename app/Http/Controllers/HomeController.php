@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User; // Ensure 'User' starts with uppercase
+use App\Models\User; 
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        if (Auth::id())  // Fixed the syntax
+        if (Auth::id())  
         {
-            $usertype = Auth::user()->usertype; // Fixed the syntax
+            $usertype = Auth::user()->usertype; 
 
-            if ($usertype == 'user')
+            if ($usertype == 'home')
             {
                 return view('home.homepage');
             }

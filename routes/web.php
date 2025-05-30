@@ -13,6 +13,9 @@ use App\Http\Controllers\StaffController;
 // Public routes
 Route::get('/', [HomeController::class, 'homepage']);
 Route::get('/home', [AdminController::class, 'index'])->name('home');
+ Route::get('/staff', function () {
+        return view('home.staff-dashboard');
+    })->name('staff');
 Route::post('/home/staff', [ManageUsersController::class, 'registerStaff'])->name('home.register.staff.submit');
 
 

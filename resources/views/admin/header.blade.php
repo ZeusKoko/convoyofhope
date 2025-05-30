@@ -1,5 +1,29 @@
 <header class="header">
     <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">admin Panel</a>
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::user()->name }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li class="dropdown-header">Manage Account</li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Log Out</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <nav class="navbar navbar-expand-lg">
         <div class="search-panel">
             <div class="search-inner d-flex align-items-center justify-content-center">
                 <div class="close-btn">Close <i class="fa fa-close"></i></div>
@@ -132,11 +156,10 @@
                 <!-- Megamenu end     -->
 
                 <!-- Log out               -->
-                <div class="list-inline-item logout">
-                    <x-app-layout>
-                    </x-app-layout>
-                </div>
+                
             </div>
         </div>
     </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </header>
