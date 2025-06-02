@@ -6,17 +6,18 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManageUsersController;
 use Illuminate\Support\Carbon;
 use App\Models\User;
-use App\Http\Controllers\StaffController;
+use App\Http\Controllers\MessageController;
+
 
 
 
 // Public routes
 Route::get('/', [HomeController::class, 'homepage']);
 Route::get('/home', [AdminController::class, 'index'])->name('home');
- Route::get('/staff', function () {
-        return view('home.staff-dashboard');
-    })->name('staff');
+Route::get('/staff/dashboard', [AdminController::class, 'staff'])->middleware(['auth', 'staff'])->name('staff.dashboard');
 Route::post('/home/staff', [ManageUsersController::class, 'registerStaff'])->name('home.register.staff.submit');
+Route::get('/staff/dashboard', [AdminController::class, 'staff'])->middleware(['auth', 'staff'])->name('staff.dashboard');
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -78,6 +79,15 @@ Route::post('/admin/manage-users/store-staff', [ManageUsersController::class, 's
 //route to export spredssheet
 Route::get('/export-users-word', [ManageUsersController::class, 'exportUsersToWord'])->name('export.users.word');
 
+});
+//route for messages
+Route::middleware(['auth'])->group(function () {
+    Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
+    
+    Route::middleware(['staff'])->group(function () {
+        Route::get('/staff/messages', [MessageController::class, 'staffMessages'])->name('staff.messages');
+        Route::post('/staff/message/reply/{id}', [MessageController::class, 'sendReply'])->name('staff.reply');
+    });
 });
 
 

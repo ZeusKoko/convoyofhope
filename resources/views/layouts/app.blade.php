@@ -50,6 +50,7 @@
 </nav>
 
 
+
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
@@ -108,6 +109,12 @@
       </div>
     </div>
   </div>
+  <form action="{{ route('send.message') }}" method="POST">
+    @csrf
+    <textarea name="message" class="form-control" placeholder="Write your message..."></textarea>
+    <button class="btn btn-primary mt-2" type="submit">Send</button>
+</form>
+
 
   <!-- Footer -->
   <footer class="bg-grey border-top mt-5 py-4">
