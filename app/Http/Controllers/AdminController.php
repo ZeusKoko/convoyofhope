@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use illuminate\Support\Facades\Auth;
-
+use App\Models\Message;
 
 
 class AdminController extends Controller
@@ -25,7 +25,9 @@ class AdminController extends Controller
             }
             else if($usertype == 'staff')
             {
-                return view('home.staff');
+                $unreadMessages = Message::where('is_read',false)->get();
+                $count = $unreadMessages->count();
+                return view('home.staff',compact('unreadMessages','count'));
             }
             else
             {
@@ -84,6 +86,5 @@ public function storeStaff(Request $request)
     return redirect()->back()->with('success', 'Staff registered.');
 }
 
-//controller reg
 
 }

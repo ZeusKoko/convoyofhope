@@ -184,23 +184,50 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-gray-400">Unread Messages</p>
-                                <h3 class="text-2xl font-bold mt-1">5</h3>
+                                <h3 class="text-2xl font-bold mt-1">{{$count}}</h3>
                             </div>
-                            <div class="p-3 rounded-full bg-amber-900 bg-opacity-30">
-                                <i class="fas fa-envelope text-amber-400 text-xl"></i>
-                            </div>
+       
+                            <!-- Envelope Icon (Trigger Modal) -->
+<div class="p-3 rounded-full bg-amber-900 bg-opacity-30 cursor-pointer" data-bs-toggle="modal" data-bs-target="#unreadMessagesModal">
+    <i class="fas fa-envelope text-amber-400 text-xl"></i>
+</div>
+
                         </div>
                         <div class="mt-4">
-                            <div class="flex items-center justify-between text-sm text-gray-400">
-                                <span>Urgent</span>
-                                <span>2</span>
-                            </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2 mt-1">
-                                <div class="bg-amber-500 h-2 rounded-full" style="width: 40%"></div>
-                            </div>
+             
                         </div>
                     </div>
 
+                    <!-- Unread Messages Modal -->
+<div class="modal fade" id="unreadMessagesModal" tabindex="-1" aria-labelledby="unreadMessagesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content bg-gray-900 text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="unreadMessagesModalLabel">Unread Messages</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @forelse($unreadMessages as $msg)
+        <div class="mb-4 p-4 rounded bg-gray-800 border-l-4 border-yellow-400 shadow">
+            <p><strong>From:</strong> {{ $msg->user->name }}</p>
+            <p>{{ $msg->message }}</p>
+            <p class="text-xs text-gray-400">Sent: {{ $msg->created_at->format('M j, Y - h:i A') }}</p>
+
+            <form action="{{ route('staff.reply', $msg->id) }}" method="POST" class="mt-2">
+                @csrf
+                <textarea name="reply" class="form-control text-black" placeholder="Type your reply..."></textarea>
+                <button type="submit" class="btn btn-success btn-sm mt-2">Send Reply</button>
+            </form>
+        </div>
+        @empty
+            <p class="text-center text-gray-400">No unread messages.</p>
+        @endforelse
+      </div>
+    </div>
+  </div>
+</div>
+
+         
                     <!-- Card 3: Assigned Regions -->
                     <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-yellow-500 animate-fade-in card-3">
                         <div class="flex items-center justify-between">
