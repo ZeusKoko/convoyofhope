@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use illuminate\Support\Facades\Auth;
 use App\Models\Message;
+use App\Models\Event;
 
 
 class AdminController extends Controller
 {
     public function index()
     {
+        $events = Event::orderBy('event_date', 'asc')->get();
+        return view('admin.events.index', compact('events'));
         if(Auth::id())
         {
             $usertype= Auth()->user()->usertype;
@@ -66,6 +69,12 @@ public function storeUser(Request $request)
 public function createStaff()
 {
     return view('admin.register_staff'); // another form
+}
+//edit events
+public function edit($id)
+{
+    $event = Event::findOrFail($id);
+    return view('admin.events.edit', compact('event'));
 }
 
 public function storeStaff(Request $request)
