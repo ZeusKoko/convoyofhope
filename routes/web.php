@@ -7,6 +7,8 @@ use App\Http\Controllers\ManageUsersController;
 use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\AdminEventController;
+
 
 
 
@@ -17,6 +19,14 @@ Route::get('/home', [AdminController::class, 'index'])->name('home');
 Route::get('/staff/dashboard', [AdminController::class, 'staff'])->middleware(['auth', 'staff'])->name('staff.dashboard');
 Route::post('/home/staff', [ManageUsersController::class, 'registerStaff'])->name('home.register.staff.submit');
 Route::get('/staff/dashboard', [AdminController::class, 'staff'])->middleware(['auth', 'staff'])->name('staff.dashboard');
+//events routes
+Route::prefix('admin')->group(function () {
+    Route::get('/events', [AdminEventController::class, 'index'])->name('admin.events.index');
+    Route::post('/events', [AdminEventController::class, 'store'])->name('admin.events.store');
+    Route::get('/events/{id}/edit', [AdminEventController::class, 'edit'])->name('admin.events.edit');
+    Route::put('/events/{id}', [AdminEventController::class, 'update'])->name('admin.events.update');
+    Route::delete('/events/{id}', [AdminEventController::class, 'destroy'])->name('admin.events.destroy');
+});
 
 
 

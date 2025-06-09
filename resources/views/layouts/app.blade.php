@@ -205,9 +205,46 @@
                 <div class="orange-accent rounded-xl p-6 mb-6">
                     <h3 class="font-bold text-lg mb-2">Make an Impact Today</h3>
                     <p class="text-sm mb-4">Your donation helps provide essential resources to those in need.</p>
-                    <button class="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-900 transition">
+                    <button class="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-900 transition" onclick="openModal()">
                         Donate Now
                     </button>
+                    <div id="donationModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Donation Form</h2>
+      <div class="form-group">
+        <label for="donorName">Name</label>
+        <input type="text" id="donorName">
+      </div>
+      <div class="form-group">
+        <label for="donorEmail">Email</label>
+        <input type="email" id="donorEmail">
+      </div>
+      <div class="form-group">
+        <label for="donorID">ID Number</label>
+        <input type="text" id="donorID">
+      </div>
+      <div class="form-group">
+        <label for="donorNationality">Nationality</label>
+        <input type="text" id="donorNationality">
+      </div>
+      <div class="form-group">
+        <label for="donationType">Donation Service</label>
+        <select id="donationType">
+          <option value="">-- Select Service --</option>
+          <option value="food">Food</option>
+          <option value="clothes">Clothes</option>
+          <option value="education">Education</option>
+          <option value="healthcare">Healthcare</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="donationAmount">Amount (KES)</label>
+        <input type="number" id="donationAmount">
+      </div>
+      <button class="confirm-btn" onclick="submitDonation()">Confirm</button>
+    </div>
+  </div>
                 </div>
                 
                 <!-- Messages Section -->
@@ -239,6 +276,30 @@
         @livewireScripts
     </body>
      <script>
+        //donation modal
+        function openModal() {
+      document.getElementById('donationModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('donationModal').style.display = 'none';
+    }
+
+    function submitDonation() {
+      const name = document.getElementById('donorName').value;
+      const email = document.getElementById('donorEmail').value;
+      const id = document.getElementById('donorID').value;
+      const nationality = document.getElementById('donorNationality').value;
+      const service = document.getElementById('donationType').value;
+      const amount = document.getElementById('donationAmount').value;
+
+      if (name && email && id && nationality && service && amount) {
+        alert("Donation submitted successfully!\nThank you, " + name + "!");
+        closeModal();
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
 
         // Message Form Submission
         document.getElementById('messageForm').addEventListener('submit', function(e) {
@@ -257,6 +318,85 @@
         });
     </script>
     <style>
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+    .donate-btn {
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 40px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 30px;
+      color:black;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      border: 4px solid navy;
+    }
+
+    .modal-content h2 {
+        color: navy;
+        margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: navy; 
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .confirm-btn {
+      background-color: green;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      color: red;
+    }
         .gradient-bg {
             background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
         }
