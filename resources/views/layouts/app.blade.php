@@ -1,8 +1,57 @@
 @php
     use App\Models\Event;
+    use App\Models\Donation;
     $upcomingEvents = \App\Models\Event::where('event_date', '>=', \Carbon\Carbon::today())->orderBy('event_date')->get();
+    use Illuminate\Support\Facades\Auth;
+
+     $latestDonation = Donation::with('event')
+        ->where('user_id', Auth::id())
+        ->orderBy('created_at', 'desc')
+        ->first();
+
 
     $upcomingEvents = Event::where('event_date', '>=', Carbon\Carbon::today())->orderBy('event_date')->get();
+
+      $user = Auth::user();
+      $allDonations = Donation::with('event')
+        ->where('user_id', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    $recentDonations = $allDonations->take(4);
+
+      $eventsContributedTo = Donation::where('user_id', $user->id)
+        ->distinct('event_id')
+        ->count('event_id');
+
+    $totalDonated = Donation::where('user_id', $user->id)->sum('amount');
+
+    $now = \Carbon\Carbon::now();
+    $oneWeekAgo = \Carbon\Carbon::now()->subWeek();
+    $twoWeeksAgo = \Carbon\Carbon::now()->subWeeks(2);
+
+    $thisWeek = Donation::where('user_id', $user->id)
+        ->whereBetween('created_at', [$oneWeekAgo, $now])
+        ->sum('amount');
+
+    $lastWeek = Donation::where('user_id', $user->id)
+        ->whereBetween('created_at', [$twoWeeksAgo, $oneWeekAgo])
+        ->sum('amount');
+
+    if ($lastWeek > 0) {
+        $percentageChange = (($thisWeek - $lastWeek) / $lastWeek) * 100;
+        $formattedChange = number_format($percentageChange, 2);
+        $changeClass = $percentageChange >= 0 ? 'text-green-400' : 'text-red-400';
+        $changeSign = $percentageChange >= 0 ? '+' : '';
+    } elseif ($thisWeek > 0) {
+        $formattedChange = '100.00';
+        $changeClass = 'text-green-400';
+        $changeSign = '+';
+    } else {
+        $formattedChange = null;
+        $changeClass = '';
+        $changeSign = '';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -86,131 +135,143 @@
         <!-- Summary Cards -->
         <div class="summary-cards grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div class="bg-gray-800 rounded-xl p-6 shadow-lg transition-all duration-300 card-hover">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400">Total Donations</p>
-                        <h2 class="text-3xl font-bold mt-2">24</h2>
-                    </div>
-                    <div class="p-3 rounded-lg bg-gray-700">
-                        <i class="fas fa-hand-holding-heart text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-700 flex items-center">
-                    <span class="text-green-400 text-sm"><i class="fas fa-arrow-up mr-1"></i> 12%</span>
-                    <span class="text-gray-400 text-sm ml-2">from last month</span>
-                </div>
-            </div>
+    <div class="flex justify-between items-start">
+        <div>
+            <p class="text-gray-400">Total Events Contributed</p>
+            <h2 class="text-3xl font-bold mt-2">{{ $eventsContributedTo }}</h2>
+        </div>
+        <div class="p-3 rounded-lg bg-gray-700">
+            <i class="fas fa-hand-holding-heart text-orange-500 text-xl"></i>
+        </div>
+    </div>
+</div>
+
+                
+
+            <div class="bg-gray-800 rounded-xl p-6 shadow-lg transition-all duration-300 card-hover"> 
+    <div class="flex justify-between items-start">
+        <div>
+            <p class="text-gray-400">Amount Donated</p>
+            <h2 class="text-3xl font-bold mt-2">
+                @if($totalDonated > 0)
+                    KES {{ number_format($totalDonated, 2) }}
+                @else
+                    <span class="text-gray-500 text-xl">No donations yet</span>
+                @endif
+            </h2>
+        </div>
+        <div class="p-3 rounded-lg bg-gray-700">
+            <i class="fas fa-dollar-sign text-orange-500 text-xl"></i>
+        </div>
+    </div>
+
+    @if($formattedChange)
+        <div class="mt-4 pt-4 border-t border-gray-700 flex items-center">
+            <span class="{{ $changeClass }} text-sm">
+                {{ $changeSign }}{{ $formattedChange }}%
+            </span>
+            <span class="text-gray-400 text-sm ml-2">from last week</span>
+        </div>
+    @endif
+</div>
+
+
 
             <div class="bg-gray-800 rounded-xl p-6 shadow-lg transition-all duration-300 card-hover">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400">Amount Donated</p>
-                        <h2 class="text-3xl font-bold mt-2">$1,245</h2>
-                    </div>
-                    <div class="p-3 rounded-lg bg-gray-700">
-                        <i class="fas fa-dollar-sign text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-700 flex items-center">
-                    <span class="text-green-400 text-sm"><i class="fas fa-arrow-up mr-1"></i> 8%</span>
-                    <span class="text-gray-400 text-sm ml-2">from last month</span>
-                </div>
-            </div>
+    <div class="flex justify-between items-start">
+        <div>
+            <p class="text-gray-400">Latest Donation</p>
+            <h2 class="text-3xl font-bold mt-2">
+                @if ($latestDonation)
+                    KES {{ number_format($latestDonation->amount) }}
+                @else
+                    No donations yet
+                @endif
+            </h2>
+        </div>
+        <div class="p-3 rounded-lg bg-gray-700">
+            <i class="fas fa-calendar-check text-orange-500 text-xl"></i>
+        </div>
+    </div>
+    <div class="mt-4 pt-4 border-t border-gray-700">
+        @if ($latestDonation)
+            <span class="text-gray-400 text-sm">
+                For: <strong>{{ $latestDonation->event->title ?? 'N/A' }}</strong> on 
+                <strong>{{ \Carbon\Carbon::parse($latestDonation->created_at)->format('M d, Y') }}</strong>
+            </span>
+        @else
+            <span class="text-gray-400 text-sm">No donation records available.</span>
+        @endif
+    </div>
+</div>
 
-            <div class="bg-gray-800 rounded-xl p-6 shadow-lg transition-all duration-300 card-hover">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400">Latest Donation</p>
-                        <h2 class="text-3xl font-bold mt-2">$150</h2>
-                    </div>
-                    <div class="p-3 rounded-lg bg-gray-700">
-                        <i class="fas fa-calendar-check text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-700">
-                    <span class="text-gray-400 text-sm">Medical supplies on May 15</span>
-                </div>
-            </div>
         </div>
 
         <!-- Main Content -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
             <!-- Recent Donations Table -->
             <div class="lg:col-span-2 bg-gray-800 rounded-xl p-6 shadow-lg">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold">Recent Donations</h2>
-                    <button class="text-orange-500 hover:text-orange-400 text-sm font-medium">
-                        View All <i class="fas fa-chevron-right ml-1"></i>
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-gray-400 text-left border-b border-gray-700">
-                                <th class="pb-3">Item</th>
-                                <th class="pb-3">Category</th>
-                                <th class="pb-3">Date</th>
-                                <th class="pb-3">Status</th>
-                                <th class="pb-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-700">
-                            <tr class="hover:bg-gray-700/50">
-                                <td class="py-4">Winter Clothing Pack</td>
-                                <td class="py-4">Clothes</td>
-                                <td class="py-4">May 15, 2023</td>
-                                <td class="py-4">
-                                    <span class="donation-completed px-3 py-1 rounded-full text-sm">Completed</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <button class="text-gray-400 hover:text-white">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-700/50">
-                                <td class="py-4">Canned Food</td>
-                                <td class="py-4">Food</td>
-                                <td class="py-4">May 10, 2023</td>
-                                <td class="py-4">
-                                    <span class="donation-completed px-3 py-1 rounded-full text-sm">Completed</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <button class="text-gray-400 hover:text-white">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-700/50">
-                                <td class="py-4">First Aid Kits</td>
-                                <td class="py-4">Medical</td>
-                                <td class="py-4">May 5, 2023</td>
-                                <td class="py-4">
-                                    <span class="donation-pending px-3 py-1 rounded-full text-sm">Pending</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <button class="text-gray-400 hover:text-white">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-700/50">
-                                <td class="py-4">Children's Books</td>
-                                <td class="py-4">Education</td>
-                                <td class="py-4">Apr 28, 2023</td>
-                                <td class="py-4">
-                                    <span class="donation-completed px-3 py-1 rounded-full text-sm">Completed</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <button class="text-gray-400 hover:text-white">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-white">Recent Donations</h2>
+        <button id="toggleDonations" class="text-orange-500 hover:text-orange-400 text-sm font-medium focus:outline-none">
+            View All <i class="fas fa-chevron-down ml-1"></i>
+        </button>
+    </div>
+
+    <div class="overflow-x-auto max-h-[320px]">
+        <table class="w-full text-white">
+            <thead>
+                <tr class="text-gray-400 text-left border-b border-gray-700">
+                    <th class="pb-3">Event</th>
+                    <th class="pb-3">Date</th>
+                    <th class="pb-3">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="donationTable" class="divide-y divide-gray-700 text-sm">
+                @foreach ($recentDonations as $donation)
+                    <tr class="hover:bg-gray-700/50 donation-row">
+                        <td class="py-3">{{ $donation->event->title ?? 'N/A' }}</td>
+                        <td class="py-3">{{ \Carbon\Carbon::parse($donation->created_at)->toFormattedDateString() }}</td>
+                        <td class="py-3">
+                            <span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs">KES {{ number_format($donation->amount, 2) }}</span>
+                        </td>
+                    </tr>
+                @endforeach
+
+                @foreach ($allDonations->skip(4) as $donation)
+                    <tr class="hover:bg-gray-700/50 donation-row hidden extra-row">
+                        <td class="py-3">{{ $donation->event->title ?? 'N/A' }}</td>
+                        <td class="py-3">{{ \Carbon\Carbon::parse($donation->created_at)->toFormattedDateString() }}</td>
+                        <td class="py-3">
+                            <span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs">KES {{ number_format($donation->amount, 2) }}</span>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('toggleDonations');
+        const extraRows = document.querySelectorAll('.extra-row');
+        let expanded = false;
+
+        toggleBtn.addEventListener('click', function () {
+            expanded = !expanded;
+
+            extraRows.forEach(row => {
+                row.classList.toggle('hidden', !expanded);
+            });
+
+            toggleBtn.innerHTML = expanded
+                ? 'View Less <i class="fas fa-chevron-up ml-1"></i>'
+                : 'View All <i class="fas fa-chevron-down ml-1"></i>';
+        });
+    });
+</script>
+
 
             <!-- Quick Donate -->
             <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
