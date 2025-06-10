@@ -11,7 +11,7 @@
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
     <ul class="list-unstyled">
         <li class="active"><a href="{{ route('admin.manage.users') }}"> <i class="icon-home"></i>manage users </a></li>
-        <li><a href=""> <i class="icon-grid"></i> Donation Management
+        <li><a href="{{ route('admin.events.index') }}"> <i class="icon-grid"></i> Events Management
             </a></li>
         <li><a href=""> <i class="fa fa-bar-chart"></i>Cost Management</a></li>
         <li><a href=""> <i class="icon-padnote"></i> Reports Generation</a></li>

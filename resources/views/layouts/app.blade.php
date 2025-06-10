@@ -1,3 +1,10 @@
+@php
+    use App\Models\Event;
+    $upcomingEvents = \App\Models\Event::where('event_date', '>=', \Carbon\Carbon::today())->orderBy('event_date')->get();
+
+    $upcomingEvents = Event::where('event_date', '>=', Carbon\Carbon::today())->orderBy('event_date')->get();
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -57,6 +64,12 @@
             <div>
                 <h1 class="text-3xl font-bold">Welcome back, <span class="orange-text">{{ Auth::user()->name }}</span>!</h1>
                 <p class="text-gray-400">Your generosity makes a difference. Thank you!</p>
+                         @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
             </div>
             <div class="flex items-center space-x-4">
                 <div class="relative">
@@ -209,52 +222,58 @@
                         Donate Now
                     </button>
                     <div id="donationModal" class="modal">
+
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">&times;</span>
       <h2>Donation Form</h2>
       <div class="form-group">
+        <form method="POST" action="{{ route('donation.store') }}">
+    @csrf
         <label for="donorName">Name</label>
-        <input type="text" id="donorName">
+        <input type="text" name="name" placeholder="Full Name" required>
+        
       </div>
       <div class="form-group">
         <label for="donorEmail">Email</label>
-        <input type="email" id="donorEmail">
+        <input type="email" name="email" placeholder="Email" required>
       </div>
       <div class="form-group">
         <label for="donorID">ID Number</label>
-        <input type="text" id="donorID">
+        <input type="text" name="national_id" placeholder="National ID" required>
       </div>
       <div class="form-group">
         <label for="donorNationality">Nationality</label>
-        <input type="text" id="donorNationality">
+        <input type="text" name="nationality" placeholder="Nationality" required>
       </div>
       <div class="form-group">
-        <label for="donationType">Donation Service</label>
-        <select id="donationType">
-          <option value="">-- Select Service --</option>
-          <option value="food">Food</option>
-          <option value="clothes">Clothes</option>
-          <option value="education">Education</option>
-          <option value="healthcare">Healthcare</option>
+        <label for="donation_service">Select Event/Service:</label>
+        <select name="event_id" required>
+        <option value="">-- Choose Event --</option>
+        @foreach($upcomingEvents as $event)
+            <option value="{{ $event->id }}">{{ $event->title }} - {{ $event->event_date }}</option>
+        @endforeach
         </select>
+
+
       </div>
       <div class="form-group">
         <label for="donationAmount">Amount (KES)</label>
-        <input type="number" id="donationAmount">
+        <input type="number" name="amount" placeholder="Amount (KES)" required>
       </div>
       <button class="confirm-btn" onclick="submitDonation()">Confirm</button>
     </div>
   </div>
                 </div>
+</form>
                 
                 <!-- Messages Section -->
                 <div class="mt-8">
                     <h2 class="text-xl font-bold mb-4">Send a Message</h2>
                      <form action="{{ route('send.message') }}" method="POST">
-    @csrf
-    <textarea name="message" class="form-control" placeholder="Write your message..."></textarea>
-    <button class="btn btn-primary mt-2" type="submit">Send</button>
-</form>
+                        @csrf
+                        <textarea name="message" class="form-control" placeholder="Write your message..."></textarea>
+                        <button class="btn btn-primary mt-2" type="submit">Send</button>
+                    </form>
                 </div>
             </div>
         </div>
