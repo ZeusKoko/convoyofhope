@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\DonationController;
 
 
 
@@ -26,6 +27,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/events/{id}/edit', [AdminEventController::class, 'edit'])->name('admin.events.edit');
     Route::put('/events/{id}', [AdminEventController::class, 'update'])->name('admin.events.update');
     Route::delete('/events/{id}', [AdminEventController::class, 'destroy'])->name('admin.events.destroy');
+    Route::get('/admin/events', [AdminController::class, 'events'])->name('admin.events.index');
+
 });
 
 
@@ -70,6 +73,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     ->get(['id', 'name', 'email', 'created_at']);
         return response()->json($newUsers);
     })->name('new.user.details');
+    //store donations
+    Route::post('/donate', [DonationController::class, 'store'])->name('donation.store');
 
     // Total user details (excluding admin)
     Route::get('/total-user-details', function () {

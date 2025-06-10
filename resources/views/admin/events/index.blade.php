@@ -1,38 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-   @include('admin.css')
-</head>
-<body>
-<header class="header">
-    <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">admin Panel</a>
-
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->name }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li class="dropdown-header">Manage Account</li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Log Out</button>
-                        </form>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<nav class="navbar">
+  <a href="{{ route('admin.index') }}" class="back-btn">← Back to Dashboard</a>
+  <span class="nav-title">Manage Events</span>
 </nav>
-<div class="d-flex align-items-stretch">
-@include('admin.sidebar')
-<div class="page-content">
-   
-
 <div class="event-section">
   <h2 class="section-title">Upcoming Events</h2>
 
@@ -70,19 +39,43 @@
     @endforeach
   </ul>
 </div>
-</div>
 
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</html>
 
 <!-- Styling -->
 <style>
   body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: grey;
     color: #333;
     padding: 20px;
+  }
+  .navbar {
+    background-color: navy;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .back-btn {
+    color: orange;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .back-btn:hover {
+    text-decoration: underline;
+  }
+
+  .nav-title {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
   }
 
   .event-section {

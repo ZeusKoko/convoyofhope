@@ -13,8 +13,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $events = Event::orderBy('event_date', 'asc')->get();
-        return view('admin.events.index', compact('events'));
         if(Auth::id())
         {
             $usertype= Auth()->user()->usertype;
@@ -70,6 +68,14 @@ public function createStaff()
 {
     return view('admin.register_staff'); // another form
 }
+
+//route method for event
+public function events()
+{
+    $events = Event::orderBy('event_date', 'asc')->get();
+    return view('admin.events.index', compact('events'));
+}
+
 //edit events
 public function edit($id)
 {
