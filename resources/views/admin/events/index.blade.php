@@ -4,16 +4,22 @@
 </nav>
 <div class="event-section">
   <h2 class="section-title">Upcoming Events</h2>
-
-  <!-- Add Event Form -->
-  <form method="POST" action="{{ route('admin.events.store') }}" class="event-form">
+<!--event form-->
+ <form method="POST" action="{{ route('admin.events.store') }}" class="event-form" enctype="multipart/form-data">
     @csrf
     <input type="text" name="title" placeholder="Event Title" required>
     <textarea name="description" placeholder="Event Description" required></textarea>
     <input type="text" name="venue" placeholder="Event Venue/Region" required>
+
+    <div class="mb-3">
+        <label for="image" class="form-label">Event Image</label>
+        <input type="file" class="form-control" name="image" accept="image/*">
+    </div>
+
     <input type="date" name="event_date" required>
     <button type="submit" class="add-btn">Add Event</button>
-  </form>
+</form>
+
 
   <!-- Event List -->
   <ul class="event-list">

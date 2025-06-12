@@ -113,6 +113,7 @@
             <div>
                 <h1 class="text-3xl font-bold">Welcome back, <span class="orange-text">{{ Auth::user()->name }}</span>!</h1>
                 <p class="text-gray-400">Your generosity makes a difference. Thank you!</p>
+
                          @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -206,6 +207,7 @@
 </div>
 
         </div>
+        
 
         <!-- Main Content -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
@@ -252,7 +254,104 @@
     </div>
 </div>
 
+<!--barner-->
+<div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden relative">
+    <h2 class="text-white text-lg font-bold p-4">Upcoming Events</h2>
+
+    <div id="carousel" class="relative">
+        <div class="relative h-56 sm:h-64 overflow-hidden rounded-xl">
+            @foreach($upcomingEvents as $index => $event)
+    <div 
+        class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer @if($index == 0) opacity-100 @else opacity-0 @endif"
+        onclick="showModal({{ $event->id }})"
+    >
+        <img src="{{ asset('storage/' . $event->image) }}" alt="Event Image" class="w-full h-auto rounded">
+
+
+
+        <div class="absolute bottom-0 bg-black/60 w-full p-3 text-white">
+            <div class="text-lg font-bold">{{ $event->title }}</div>
+            <div class="text-sm">{{ $event->venue }}</div>
+        </div>
+    </div>
+
+    <!-- Modal for this event -->
+    <div 
+        id="modal-{{ $event->id }}" 
+        class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+        
+    >
+        <div class="modal-content bg-white rounded-xl p-6 max-w-md w-full relative" onclick="event.stopPropagation()">
+            <button onclick="closeModal({{ $event->id }})" class="absolute top-2 right-3 text-xl font-bold">&times;</button>
+            <h2 class="text-xl font-semibold mb-2">{{ $event->title }}</h2>
+            <p class="text-sm text-gray-600"><strong>Venue:</strong> {{ $event->venue }}</p>
+            <p class="mt-2 text-gray-700">{{ $event->description }}</p>
+            <p class="text-xs text-gray-500 mt-4">Date: {{ \Carbon\Carbon::parse($event->event_date)->format('F d, Y') }}</p>
+        </div>
+    </div>
+@endforeach
+
+        </div>
+        
+
+        <!-- Nav buttons -->
+        <button onclick="prevSlide()" class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white bg-black/50 rounded-full p-2 hover:bg-black/70">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute top-1/2 right-2 transform -translate-y-1/2 text-white bg-black/50 rounded-full p-2 hover:bg-black/70">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
 <script>
+    //script for barner
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('opacity-100');
+            slide.classList.add('opacity-0');
+            if (i === index) {
+                slide.classList.remove('opacity-0');
+                slide.classList.add('opacity-100');
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 3000);
+
+    function showModal(id) {
+    document.getElementById(`modal-${id}`).classList.remove('hidden');
+}
+
+function closeModal(id) {
+    document.getElementById(`modal-${id}`).classList.add('hidden');
+}
+
+
+//esc
+ document.addEventListener('keydown', function (e) {
+        if (e.key === "Escape") {
+            document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+        }
+    });
+
+    //script for togle donation
     document.addEventListener('DOMContentLoaded', function () {
         const toggleBtn = document.getElementById('toggleDonations');
         const extraRows = document.querySelectorAll('.extra-row');
