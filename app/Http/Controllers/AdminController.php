@@ -83,6 +83,8 @@ public function edit($id)
     return view('admin.events.edit', compact('event'));
 }
 
+
+//store staff
 public function storeStaff(Request $request)
 {
     $request->validate([

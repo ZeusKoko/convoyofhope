@@ -14,18 +14,35 @@ class AdminEventController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'venue' => 'required|string',
-            'event_date' => 'required|date',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'venue' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'event_date' => 'required|date',
+    ]);
 
-        Event::create($request->only('title', 'description','venue', 'event_date'));
+    $imagePath = null;
 
-        return redirect()->route('admin.events.index')->with('success', 'Event added!');
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('event_images', 'public'); // ✅ Force 'public' disk
     }
+
+    Event::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'venue' => $request->venue,
+        'event_date' => $request->event_date,
+        'image' => $imagePath, // ✅ Save relative path
+    ]);
+
+    return redirect()->route('admin.events.index')->with('success', 'Event added!');
+}
+
+
+
+
 
     public function edit($id)
     {
@@ -38,7 +55,7 @@ class AdminEventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'venue' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'event_date' => 'required|date',
         ]);
 
