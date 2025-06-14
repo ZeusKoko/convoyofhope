@@ -15,8 +15,10 @@
     <i class="icon-grid"></i> Events Management
 </a></li>
 
-<li><a href="#">
-    <i ></i> User Management
+<li><a href="{{ route('staff.assignments.create') }}" >
+    Assign Staff to Region
+</a>
+    <i ></i> staff Management
 </a></li>
 
 <li><a href="#">

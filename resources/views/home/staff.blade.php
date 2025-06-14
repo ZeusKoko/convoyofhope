@@ -157,27 +157,7 @@
             <main class="flex-1 overflow-y-auto p-4 bg-gray-900">
                 <!-- Summary Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <!-- Card 1: Pending Tasks -->
-                    <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-orange-500 animate-fade-in card-1">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-400">Pending Tasks</p>
-                                <h3 class="text-2xl font-bold mt-1">12</h3>
-                            </div>
-                            <div class="p-3 rounded-full bg-orange-900 bg-opacity-30">
-                                <i class="fas fa-tasks text-orange-400 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="flex items-center justify-between text-sm text-gray-400">
-                                <span>High Priority</span>
-                                <span>3</span>
-                            </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2 mt-1">
-                                <div class="bg-orange-500 h-2 rounded-full" style="width: 25%"></div>
-                            </div>
-                        </div>
-                    </div>
+                   
 
                     <!-- Card 2: Unread Messages -->
                     <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-amber-500 animate-fade-in card-2">

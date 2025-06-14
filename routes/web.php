@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\StaffAssignmentController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -105,6 +106,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/staff/messages', [MessageController::class, 'staffMessages'])->name('staff.messages');
         Route::post('/staff/message/reply/{id}', [MessageController::class, 'sendReply'])->name('staff.reply');
     });
+    //route for assign staff
+    Route::get('/admin/staff_assignments', [StaffAssignmentController::class, 'create'])->name('staff.assignments.create');
+    Route::post('/admin/staff_assignments', [StaffAssignmentController::class, 'store'])->name('staff.assignments.store');
 });
 
 
