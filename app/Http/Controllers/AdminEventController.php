@@ -26,7 +26,7 @@ class AdminEventController extends Controller
     $imagePath = null;
 
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('event_images', 'public'); // ✅ Force 'public' disk
+        $imagePath = $request->file('image')->store('event_images', 'public'); // 'public' disk
     }
 
     Event::create([

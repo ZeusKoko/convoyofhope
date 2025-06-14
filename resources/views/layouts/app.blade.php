@@ -282,7 +282,10 @@
         
     >
         <div class="modal-content bg-white rounded-xl p-6 max-w-md w-full relative" onclick="event.stopPropagation()">
-            <button onclick="closeModal({{ $event->id }})" class="absolute top-2 right-3 text-xl font-bold">&times;</button>
+            <button type="button" onclick="closeModal({{ $event->id }})" class="absolute top-2 right-3 text-xl font-bold">
+    &times;
+</button>
+
             <h2 class="text-xl font-semibold mb-2">{{ $event->title }}</h2>
             <p class="text-sm text-gray-600"><strong>Venue:</strong> {{ $event->venue }}</p>
             <p class="mt-2 text-gray-700">{{ $event->description }}</p>
