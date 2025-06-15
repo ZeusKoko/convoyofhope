@@ -210,25 +210,75 @@
          
                     <!-- Card 3: Assigned Regions -->
                     <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-yellow-500 animate-fade-in card-3">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between cursor-pointer" data-bs-toggle="modal" data-bs-target="#assignmentsModal">
                             <div>
-                                <p class="text-gray-400">Assigned Regions</p>
-                                <h3 class="text-2xl font-bold mt-1">4</h3>
+                                <p class="text-gray-400">All Assigned Events</p>
+                                <h3 class="text-2xl font-bold mt-1">{{ $assignments->count() }}</h3>
                             </div>
                             <div class="p-3 rounded-full bg-yellow-900 bg-opacity-30">
                                 <i class="fas fa-map-marked-alt text-yellow-400 text-xl"></i>
                             </div>
                         </div>
+
                         <div class="mt-4">
                             <div class="flex items-center justify-between text-sm text-gray-400">
-                                <span>Active Today</span>
-                                <span>2</span>
+                                
                             </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2 mt-1">
-                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 50%"></div>
-                            </div>
+                            
                         </div>
                     </div>
+                                                <!-- Bootstrap Modal -->
+                            <div class="modal fade" id="assignmentsModal" tabindex="-1" aria-labelledby="assignmentsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                <div class="modal-content">
+                                <div class="modal-header bg-warning text-dark">
+                                    <h5 class="modal-title" id="assignmentsModalLabel">Your Assigned Events ({{ $assignments->count() }})</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                
+                                <div class="modal-body">
+                                    @if($assignments->count())
+                                        <ul class="list-group">
+                                            @foreach($assignments as $assignment)
+                                                <li class="list-group-item">
+                                                    <strong>{{ $assignment->event->title }}</strong> <br>
+                                                    <span>Venue: {{ $assignment->event->venue }}</span> <br>
+                                                    <span>Items: {{ $assignment->items }}</span> <br>
+                                                    <span>Budget: KES {{ number_format($assignment->budget, 2) }}</span> <br>
+                                                    <small class="text-muted">Assigned on: {{ $assignment->created_at->format('M d, Y') }}</small>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-center text-muted">No assignments yet.</p>
+                                    @endif
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!--card5 : upcoming events assigned-->
+
+                            <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-red-500 animate-fade-in card-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-400">pcoming Distributions</p>
+                <h3 class="text-2xl font-bold mt-1">24</h3>
+            </div>
+            <div class="p-3 rounded-full bg-red-900 bg-opacity-30">
+                <i class="fas fa-truck text-red-400 text-xl"></i>
+            </div>
+        </div>
+        <div class="mt-4">
+            
+           
+        </div>
+    </div>
+
 
                     <!-- Card 4: Recent Distributions -->
                     <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-red-500 animate-fade-in card-4">
@@ -252,6 +302,9 @@
                         </div>
                     </div>
                 </div>
+
+
+
 
                 <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -289,160 +342,51 @@
                 <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold">Recent Activities</h3>
-                        <button class="px-3 py-1 text-xs bg-orange-900 text-orange-300 rounded hover:bg-orange-800 flex items-center">
-                            <i class="fas fa-plus mr-1"></i>
-                            <span>Add Task</span>
-                        </button>
+                        
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-700">
                             <thead>
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Task</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Region</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Due Date</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Action</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Events</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Venue</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Budget</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">staff</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-700">
-                                <tr class="hover:bg-gray-700">
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 bg-orange-900 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-box-open text-orange-400"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium">Food Pack Delivery</div>
-                                                <div class="text-sm text-gray-400">To Central District</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-900 text-orange-300">
-                                            Central
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-900 text-yellow-300">
-                                            In Progress
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">
-                                        Today, 3:00 PM
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-orange-500 hover:text-orange-700 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-green-500 hover:text-green-700">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-700">
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 bg-red-900 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-utensils text-red-400"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium">School Lunch Program</div>
-                                                <div class="text-sm text-gray-400">Westside Elementary</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-900 text-red-300">
-                                            West
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900 text-green-300">
-                                            Completed
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">
-                                        Yesterday, 11:00 AM
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-orange-500 hover:text-orange-700 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-green-500 hover:text-green-700">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-700">
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 bg-blue-900 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-users text-blue-400"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium">Volunteer Training</div>
-                                                <div class="text-sm text-gray-400">New recruits</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-900 text-blue-300">
-                                            HQ
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-900 text-purple-300">
-                                            Scheduled
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">
-                                        Tomorrow, 9:00 AM
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-orange-500 hover:text-orange-700 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-green-500 hover:text-green-700">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-700">
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 bg-green-900 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-file-invoice-dollar text-green-400"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium">Monthly Report</div>
-                                                <div class="text-sm text-gray-400">April Distribution</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900 text-green-300">
-                                            All Regions
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-900 text-yellow-300">
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">
-                                        May 5, 2023
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-orange-500 hover:text-orange-700 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-green-500 hover:text-green-700">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
+    @forelse ($pastAssignments as $assignment)
+        <tr class="hover:bg-gray-700">
+            <td class="px-4 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-white">
+                    {{ $assignment->event->title }}
+                </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-900 text-orange-300">
+                    {{ $assignment->event->venue }}
+                </span>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900 text-green-300">
+                    KES {{ number_format($assignment->budget, 2) }}
+                </span>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">
+                {{ \Carbon\Carbon::parse($assignment->event->event_date)->format('M d, Y') }}
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-white">
+                {{ $assignment->staff->name }}
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5" class="px-4 py-4 text-center text-sm text-gray-400">No past assignments available.</td>
+        </tr>
+    @endforelse
+</tbody>
+
                         </table>
                     </div>
                 </div>
