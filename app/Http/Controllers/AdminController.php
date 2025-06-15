@@ -7,6 +7,9 @@ use App\Models\User;
 use illuminate\Support\Facades\Auth;
 use App\Models\Message;
 use App\Models\Event;
+use App\Models\StaffAssignment;
+use Carbon\Carbon;
+
 
 
 class AdminController extends Controller
@@ -25,11 +28,31 @@ class AdminController extends Controller
                 return view('admin.index');
             }
             else if($usertype == 'staff')
-            {
-                $unreadMessages = Message::where('is_read',false)->get();
-                $count = $unreadMessages->count();
-                return view('home.staff',compact('unreadMessages','count'));
-            }
+{
+    $user = Auth()->user(); 
+    $unreadMessages = Message::where('is_read', false)->get();
+    $count = $unreadMessages->count();
+
+    
+
+    $assignments = StaffAssignment::with('event')
+    ->where('staff_id', $user->id)
+    ->whereHas('event', function ($query) {
+        $query->where('event_date', '>=', Carbon::today());
+    })
+    ->get();
+
+$pastAssignments = StaffAssignment::with(['event', 'staff'])
+    ->where('staff_id', $user->id)
+    ->whereHas('event', function ($query) {
+        $query->where('event_date', '<', Carbon::today());
+    })
+    ->get();
+
+return view('home.staff', compact('unreadMessages', 'count', 'assignments', 'pastAssignments'));
+}
+
+
             else
             {
                 return redirect()->back();
