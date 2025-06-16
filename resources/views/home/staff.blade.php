@@ -53,25 +53,6 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-tasks mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Tasks</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-chart-bar mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Reports</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-envelope mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Messages</span>
-                            <span class="ml-auto bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">3</span>
-                        </a>
-                    </li>
                    
                 </ul>
             </nav>
@@ -106,31 +87,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-tasks mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Tasks</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-chart-bar mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Reports</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-envelope mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Messages</span>
-                            <span class="ml-auto bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">3</span>
-                        </a>
-                    </li>
-                    <li class="pt-8 mt-8 border-t border-gray-800">
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white group">
-                            <i class="fas fa-sign-out-alt mr-3 text-orange-400 group-hover:text-white"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             </nav>
             
@@ -264,20 +221,60 @@
                             <!--card5 : upcoming events assigned-->
 
                             <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-red-500 animate-fade-in card-4">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-400">pcoming Distributions</p>
-                <h3 class="text-2xl font-bold mt-1">24</h3>
-            </div>
-            <div class="p-3 rounded-full bg-red-900 bg-opacity-30">
-                <i class="fas fa-truck text-red-400 text-xl"></i>
-            </div>
-        </div>
+        <div class="flex items-center justify-between cursor-pointer" onclick="toggleUpcomingModal()">
+    <div>
+        <p class="text-gray-400">Upcoming Assignments</p>
+        <h3 class="text-2xl font-bold mt-1">{{ $upcomingCount }}</h3>
+    </div>
+    <div class="p-3 rounded-full bg-red-900 bg-opacity-30">
+        <i class="fas fa-truck text-red-400 text-xl"></i>
+    </div>
+</div>
         <div class="mt-4">
-            
-           
         </div>
     </div>
+    <!-- Upcoming Assignments Modal -->
+<div id="upcomingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div class="bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2 rounded-lg shadow-lg p-6 relative">
+        <button onclick="toggleUpcomingModal()" class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl">&times;</button>
+        <h2 class="text-xl font-bold mb-4 text-white">Upcoming Assignments</h2>
+        <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
+            <table class="min-w-full text-sm text-left text-gray-300">
+                <thead class="bg-gray-700 text-gray-400 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-2">Event</th>
+                        <th class="px-4 py-2">Venue</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Staff</th>
+                        <th class="px-4 py-2">Budget</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($upcomingAssignments as $assignment)
+                        <tr class="hover:bg-gray-700">
+                            <td class="px-4 py-2">{{ $assignment->event->title }}</td>
+                            <td class="px-4 py-2 text-orange-300">{{ $assignment->event->venue }}</td>
+                            <td class="px-4 py-2">{{ $assignment->event->event_date }}</td>
+                            <td class="px-4 py-2">{{ $assignment->staff->name ?? 'N/A' }}</td>
+                            <td class="px-4 py-2 text-green-300">Ksh {{ number_format($assignment->budget) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-4 py-4 text-center text-red-400">No upcoming assignments</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleUpcomingModal() {
+        const modal = document.getElementById('upcomingModal');
+        modal.classList.toggle('hidden');
+    }
+</script>
+
 
 
                     <!-- Card 4: Recent Distributions -->
@@ -303,40 +300,85 @@
                     </div>
                 </div>
 
+<div class="bg-gray-800 p-6 rounded-xl shadow-lg mt-8">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-orange-400">Staff Activity Reports</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
+        <!-- Total Assignments -->
+        <div class="bg-gray-700 p-4 rounded-lg shadow">
+            <p class="text-gray-300">Total Assignments</p>
+            <h3 class="text-2xl font-bold text-orange-400 mt-2">{{ $totalAssignments }}</h3>
+        </div>
+
+        <!-- Upcoming Assignments -->
+        <div class="bg-gray-700 p-4 rounded-lg shadow">
+            <p class="text-gray-300">Upcoming Assignments</p>
+            <h3 class="text-2xl font-bold text-orange-400 mt-2">{{ $upcomingCount }}</h3>
+        </div>
+
+        <!-- Completed Assignments -->
+        <div class="bg-gray-700 p-4 rounded-lg shadow">
+            <p class="text-gray-300">Past Assignments</p>
+            <h3 class="text-2xl font-bold text-orange-400 mt-2">{{ $pastCount }}</h3>
+        </div>
+    </div>
+
+    <!-- Chart Placeholder -->
+    <div class="mt-8 bg-gray-700 p-6 rounded-lg shadow">
+        <h4 class="text-lg font-semibold text-orange-300 mb-4">Monthly Assignment Overview</h4>
+        <canvas id="assignmentsChart" height="100"></canvas>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+<!-- Upcoming Events Banner -->
+<div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden relative mt-8">
+    <h2 class="text-white text-lg font-bold p-4">Upcoming Events</h2>
 
-                <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <!-- Distribution Chart -->
-                    <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold">Weekly Food Distribution</h3>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-xs bg-orange-900 text-orange-300 rounded hover:bg-orange-800">Week</button>
-                                <button class="px-3 py-1 text-xs bg-gray-700 text-gray-300 rounded hover:bg-gray-600">Month</button>
-                                <button class="px-3 py-1 text-xs bg-gray-700 text-gray-300 rounded hover:bg-gray-600">Year</button>
-                            </div>
-                        </div>
-                        <div class="h-64">
-                            <canvas id="distributionChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Task Completion Chart -->
-                    <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold">Task Completion Rate</h3>
-                            <div class="flex items-center text-sm text-gray-400">
-                                <span class="w-2 h-2 rounded-full bg-orange-500 mr-1"></span>
-                                <span>This Month</span>
-                            </div>
-                        </div>
-                        <div class="h-64">
-                            <canvas id="taskChart"></canvas>
-                        </div>
+    <div id="carousel" class="relative">
+        <div class="relative h-56 sm:h-64 overflow-hidden rounded-xl">
+            @foreach($upcomingEvents as $index => $event)
+                <div 
+                    class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out cursor-pointer @if($index === 0) opacity-100 @else opacity-0 @endif"
+                    onclick="showModal({{ $event->id }})"
+                >
+                    <img src="{{ asset('storage/' . $event->image) }}" alt="Event Image" class="w-full h-full object-cover rounded">
+                    <div class="absolute bottom-0 bg-black/60 w-full p-3 text-white">
+                        <div class="text-lg font-bold">{{ $event->title }}</div>
+                        <div class="text-sm">{{ $event->venue }}</div>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div id="modal-{{ $event->id }}" 
+                    class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+                    onclick="closeModal({{ $event->id }})"
+                >
+                    <div class="modal-content bg-white rounded-xl p-6 max-w-md w-full relative" onclick="event.stopPropagation()">
+                        <button type="button" onclick="closeModal({{ $event->id }})" class="absolute top-2 right-3 text-xl font-bold text-gray-700 hover:text-black">&times;</button>
+
+                        <h2 class="text-xl font-semibold mb-2">{{ $event->title }}</h2>
+                        <p class="text-sm text-gray-600"><strong>Venue:</strong> {{ $event->venue }}</p>
+                        <p class="mt-2 text-gray-700">{{ $event->description }}</p>
+                        <p class="text-xs text-gray-500 mt-4">Date: {{ \Carbon\Carbon::parse($event->event_date)->format('F d, Y') }}</p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Carousel Controls -->
+        <button onclick="prevSlide()" class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white bg-black/50 rounded-full p-2 hover:bg-black/70 z-10">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute top-1/2 right-2 transform -translate-y-1/2 text-white bg-black/50 rounded-full p-2 hover:bg-black/70 z-10">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
 
                 <!-- Recent Activity Table -->
                 <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
@@ -548,8 +590,71 @@
                 }
             }
         });
-    </script>
+
+        //reports
+            const ctx = document.getElementById('assignmentsChart').getContext('2d');
+
+    const assignmentsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($monthlyLabels) !!}, // e.g., ['Jan', 'Feb', 'Mar']
+            datasets: [{
+                label: 'Assignments',
+                data: {!! json_encode($monthlyCounts) !!}, // e.g., [5, 2, 3]
+                backgroundColor: 'rgba(255, 165, 0, 0.7)',
+                borderColor: 'orange',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true },
+            }
+        }
+    });
     
+    </script>
+
+    
+    <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('opacity-100');
+            slide.classList.add('opacity-0');
+        });
+        slides[index].classList.remove('opacity-0');
+        slides[index].classList.add('opacity-100');
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(prev);
+    }
+
+    // Auto-slide every 3 seconds
+    setInterval(() => {
+        nextSlide();
+    }, 3000);
+
+    // Modal functions
+    function showModal(id) {
+        document.getElementById(`modal-${id}`).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+        document.getElementById(`modal-${id}`).classList.add('hidden');
+    }
+</script>
+
 </body>
 @include('home.footer')
 <style>

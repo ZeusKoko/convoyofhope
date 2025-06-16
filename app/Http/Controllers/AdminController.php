@@ -8,7 +8,9 @@ use illuminate\Support\Facades\Auth;
 use App\Models\Message;
 use App\Models\Event;
 use App\Models\StaffAssignment;
-use Carbon\Carbon;
+
+use Illuminate\Support\Carbon;
+
 
 
 
@@ -42,14 +44,41 @@ class AdminController extends Controller
     })
     ->get();
 
-$pastAssignments = StaffAssignment::with(['event', 'staff'])
-    ->where('staff_id', $user->id)
-    ->whereHas('event', function ($query) {
-        $query->where('event_date', '<', Carbon::today());
-    })
+    $pastAssignments = StaffAssignment::with(['event', 'staff'])
+    ->whereHas('event')
     ->get();
+     // Fetch all upcoming assignments (where event_date is today or future)
+    $upcomingAssignments = StaffAssignment::with('event', 'staff')
+        ->whereHas('event', function ($query) {
+            $query->whereDate('event_date', '>=', Carbon::today());
+        })
+        ->get();
+    $upcomingCount = $upcomingAssignments->count();
+    $allAssignments = StaffAssignment::with('event')->get();
 
-return view('home.staff', compact('unreadMessages', 'count', 'assignments', 'pastAssignments'));
+    $totalAssignments = $allAssignments->count();
+    $upcomingCount = $allAssignments->filter(fn($a) => $a->event->event_date >= Carbon::today())->count();
+    $pastCount = $allAssignments->filter(fn($a) => $a->event->event_date < Carbon::today())->count();
+    //banner modal
+    $upcomingEvents = Event::whereDate('event_date', '>=', Carbon::today())->orderBy('event_date')->get();
+
+
+    $monthlyLabels = [];
+    $monthlyCounts = [];
+
+for ($i = 1; $i <= 12; $i++) {
+    $monthName = date('M', mktime(0, 0, 0, $i, 10));
+    $count = $allAssignments->filter(function ($a) use ($i) {
+        return date('m', strtotime($a->event->event_date)) == $i;
+    })->count();
+
+    $monthlyLabels[] = $monthName;
+    $monthlyCounts[] = $count;
+}
+
+
+
+return view ('home.staff', compact('unreadMessages', 'count', 'assignments', 'pastAssignments','upcomingCount','upcomingAssignments','totalAssignments', 'upcomingCount', 'pastCount', 'allAssignments', 'monthlyLabels', 'monthlyCounts','upcomingEvents'));
 }
 
 
@@ -105,7 +134,6 @@ public function edit($id)
     $event = Event::findOrFail($id);
     return view('admin.events.edit', compact('event'));
 }
-
 
 //store staff
 public function storeStaff(Request $request)

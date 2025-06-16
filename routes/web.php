@@ -11,6 +11,8 @@ use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\StaffAssignmentController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\StaffAssignment;
+
 
 
 
@@ -109,6 +111,19 @@ Route::middleware(['auth'])->group(function () {
     //route for assign staff
     Route::get('/admin/staff_assignments', [StaffAssignmentController::class, 'create'])->name('staff.assignments.create');
     Route::post('/admin/staff_assignments', [StaffAssignmentController::class, 'store'])->name('staff.assignments.store');
+});
+//test
+Route::get('/test-past-assignments', function () {
+    $staffId = Auth::id(); // Get ID of currently logged-in user
+
+    $assignments = StaffAssignment::with('event')
+        ->where('staff_id', $staffId)
+        ->whereHas('event', function ($query) {
+            $query->whereDate('event_date', '<=', Carbon::today());
+        })
+        ->get();
+
+    return $assignments;
 });
 
 
