@@ -10,6 +10,10 @@
     <input type="text" name="title" placeholder="Event Title" required>
     <textarea name="description" placeholder="Event Description" required></textarea>
     <input type="text" name="venue" placeholder="Event Venue/Region" required>
+    <<label for="target_amount" class="block text-sm font-medium text-white">Donation Target (Ksh)</label>
+    <input type="number" step="0.01" name="target_amount"
+        value="{{ old('target_amount') }}"
+        class="mt-1 p-2 w-full rounded bg-gray-800 text-white border border-gray-600">
 
     <div class="mb-3">
         <label for="image" class="form-label">Event Image</label>
