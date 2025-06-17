@@ -134,6 +134,46 @@ public function edit($id)
     $event = Event::findOrFail($id);
     return view('admin.events.edit', compact('event'));
 }
+//cost
+public function costManagement(Request $request)
+{
+    $month = $request->input('month');
+    $year = $request->input('year');
+
+    $query = Event::with('donations', 'staffAssignments');
+
+    if ($month && $year) {
+        $query->whereMonth('event_date', $month)->whereYear('event_date', $year);
+    }
+
+    $events = $query->get();
+
+    $totalDonated = 0;
+    $totalBudgetUsed = 0;
+
+    $eventReports = $events->map(function ($event) use (&$totalDonated, &$totalBudgetUsed) {
+        $donated = $event->donations->sum('amount');
+        $budgetUsed = $event->staffAssignments->sum('budget');
+        $target = $event->target_amount ?? 0;
+        $available = $donated - $budgetUsed;
+
+        $totalDonated += $donated;
+        $totalBudgetUsed += $budgetUsed;
+
+        return [
+            'title' => $event->title,
+            'donated' => $donated,
+            'budget_used' => $budgetUsed,
+            'available' => $available,
+            'target' => $target,
+        ];
+    });
+
+    $totalAvailable = $totalDonated - $totalBudgetUsed;
+
+    return view('admin.cost-management', compact('eventReports', 'totalDonated', 'totalBudgetUsed', 'totalAvailable', 'month', 'year'));
+}
+
 
 //store staff
 public function storeStaff(Request $request)

@@ -15,31 +15,24 @@
     <i class="icon-grid"></i> Events Management
 </a></li>
 
-<li><a href="{{ route('staff.assignments.create') }}" >
-    Assign Staff to Region
-</a>
-    <i ></i> staff Management
-</a></li>
-
-<li><a href="#">
-    <i ></i> Donations Management
+<li><a href="{{ route('staff.assignments.create') }}">
+    <i ></i>staff Management
 </a></li>
 
 <li><a href="#">
     <i ></i> Messages
 </a></li>
 
-        <li><a href=""> <i class="fa fa-bar-chart"></i>Cost Management</a></li>
+        <li><a href="{{ route('admin.cost') }}"> <i class="fa fa-bar-chart"></i>Cost Management</a></li>
         <li><a href=""> <i class="icon-padnote"></i> Reports Generation</a></li>
 
             </ul>
         </li>
         <li><a href=""> <i class="icon-logout"></i>Login page </a></li>
-    </ul><span class="heading"> Donation Management
+    </ul><span class="heading"> system management
 </span>
     <ul class="list-unstyled">
-        <li> <a href="#"> <i class="icon-settings"></i>Demo </a></li>
-        <li> <a href="#"> <i class="icon-writing-whiteboard"></i>Demo </a></li>
+        <li> <a href="#"> <i class="icon-settings"></i>settings </a></li>
         <li> <a href="#"> <i class="icon-chart"></i>Demo </a></li>
     </ul>
 </nav>

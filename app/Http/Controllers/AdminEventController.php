@@ -19,6 +19,7 @@ class AdminEventController extends Controller
         'title' => 'required|string|max:255',
         'description' => 'required|string',
         'venue' => 'required|string',
+        'target_amount' => 'nullable|numeric',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'event_date' => 'required|date',
     ]);
@@ -34,7 +35,8 @@ class AdminEventController extends Controller
         'description' => $request->description,
         'venue' => $request->venue,
         'event_date' => $request->event_date,
-        'image' => $imagePath, // ✅ Save relative path
+        'target_amount' => $request->target_amount,
+        'image' => $imagePath, 
     ]);
 
     return redirect()->route('admin.events.index')->with('success', 'Event added!');

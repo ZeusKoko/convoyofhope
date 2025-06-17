@@ -100,6 +100,8 @@ Route::post('/admin/manage-users/store-staff', [ManageUsersController::class, 's
 Route::get('/export-users-word', [ManageUsersController::class, 'exportUsersToWord'])->name('export.users.word');
 
 });
+//cost
+Route::get('/admin/cost-management', [AdminController::class, 'costManagement'])->name('admin.cost');
 //route for messages
 Route::middleware(['auth'])->group(function () {
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
