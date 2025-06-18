@@ -9,6 +9,7 @@ class AdminEventController extends Controller
 {
     public function index()
     {
+        
         $events = Event::orderBy('event_date', 'asc')->get();
         return view('admin.events.index', compact('events'));
     }
@@ -74,4 +75,6 @@ class AdminEventController extends Controller
 
         return redirect()->route('admin.events.index')->with('success', 'Event deleted!');
     }
+    
+
 }

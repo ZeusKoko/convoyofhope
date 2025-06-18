@@ -1,71 +1,53 @@
-<div class="event-section">
-  <h2 class="section-title">Edit Event</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen px-4 py-6">
+<div class="max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-lg p-6 mt-10 text-white">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-6 text-center">Edit Event</h2>
 
-  <form method="POST" action="{{ route('admin.events.update', $event->id) }}" class="event-form">
+  <form method="POST" action="{{ route('admin.events.update', $event->id) }}" class="space-y-5">
     @csrf
     @method('PUT')
 
-    <input type="text" name="title" value="{{ old('title', $event->title) }}" required>
-    <textarea name="description" required>{{ old('description', $event->description) }}</textarea>
-    <input type="text" name="venue" value="{{ old('venue', $event->venue) }}" placeholder="Event Venue/Region" required>
-    <input type="date" name="event_date" value="{{ old('event_date', $event->event_date) }}" required>
+    <input type="text" name="title"
+           value="{{ old('title', $event->title) }}"
+           required
+           placeholder="Event Title"
+           class="w-full p-3 rounded bg-gray-900 border border-gray-600 text-white">
 
-    <button type="submit" class="add-btn">Update Event</button>
+    <textarea name="description" rows="4"
+              required
+              placeholder="Event Description"
+              class="w-full p-3 rounded bg-gray-900 border border-gray-600 text-white">{{ old('description', $event->description) }}</textarea>
+
+    <input type="text" name="venue"
+           value="{{ old('venue', $event->venue) }}"
+           placeholder="Event Venue / Region"
+           required
+           class="w-full p-3 rounded bg-gray-900 border border-gray-600 text-white">
+
+    <input type="date" name="event_date"
+           value="{{ old('event_date', $event->event_date) }}"
+           required
+           class="w-full p-3 rounded bg-gray-900 border border-gray-600 text-white">
+
+    <button type="submit"
+            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded">
+      Update Event
+    </button>
   </form>
 
-  <div style="margin-top: 20px;">
-    <a href="{{ route('admin.events.index') }}" class="edit-btn">← Back to Events</a>
+  <div class="mt-6 text-center">
+    <a href="{{ route('admin.events.index') }}"
+       class="inline-block bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded font-semibold">
+      ← Back to Events
+    </a>
   </div>
 </div>
-
-<style>
-  .event-section {
-    max-width: 600px;
-    margin: auto;
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-
-  .section-title {
-    color: navy;
-    font-size: 28px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .event-form input,
-  .event-form textarea {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-  }
-
-  .add-btn {
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-  }
-
-  .edit-btn {
-    background-color: navy;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px;
-    text-decoration: none;
-  }
-
-  .edit-btn:hover {
-    background-color: #001f4d;
-  }
-</style>
+</body>
+</html>

@@ -100,6 +100,9 @@ Route::post('/admin/manage-users/store-staff', [ManageUsersController::class, 's
 Route::get('/export-users-word', [ManageUsersController::class, 'exportUsersToWord'])->name('export.users.word');
 
 });
+// reports
+Route::get('/admin/reports', [AdminController::class, 'reportOverview'])->name('admin.reports');
+
 //cost
 Route::get('/admin/cost-management', [AdminController::class, 'costManagement'])->name('admin.cost');
 //route for messages

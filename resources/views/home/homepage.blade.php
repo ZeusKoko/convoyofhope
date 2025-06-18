@@ -41,7 +41,6 @@
             <input type="checkbox" id="menu">
             <nav>
                 <a href="#">Home</a>
-                <a href="#">Page</a>
                 <a href="#">Blog</a>
                 <a href="#">About us</a>
                 <a href="{{route('register')}}">register</a>
