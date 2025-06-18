@@ -277,27 +277,7 @@
 
 
 
-                    <!-- Card 4: Recent Distributions -->
-                    <div class="bg-gray-800 rounded-lg p-6 shadow-lg border-l-4 border-red-500 animate-fade-in card-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-400">Recent Distributions</p>
-                                <h3 class="text-2xl font-bold mt-1">24</h3>
-                            </div>
-                            <div class="p-3 rounded-full bg-red-900 bg-opacity-30">
-                                <i class="fas fa-truck text-red-400 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="flex items-center justify-between text-sm text-gray-400">
-                                <span>This Week</span>
-                                <span>8</span>
-                            </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2 mt-1">
-                                <div class="bg-red-500 h-2 rounded-full" style="width: 33%"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
 <div class="bg-gray-800 p-6 rounded-xl shadow-lg mt-8">

@@ -10,6 +10,9 @@ use App\Models\Event;
 use App\Models\StaffAssignment;
 
 use Illuminate\Support\Carbon;
+use App\Models\Donation;
+
+
 
 
 
@@ -133,6 +136,37 @@ public function edit($id)
 {
     $event = Event::findOrFail($id);
     return view('admin.events.edit', compact('event'));
+}
+//reports
+public function reportOverview()
+{
+    $totalUsers = User::count();
+    $newUsers = User::whereMonth('created_at', now()->month)->count();
+
+    $totalStaff = StaffAssignment::distinct('staff_id')->count();
+    $donations = Donation::with(['user', 'event'])->get();
+
+
+    $totalDonations = Donation::sum('amount');
+    $monthlyDonations = Donation::whereMonth('created_at', now()->month)->sum('amount');
+
+    $recentUsers = User::latest()->take(5)->get();
+    $recentDonations = Donation::with('user', 'event')->latest()->take(5)->get();
+
+    $events = Event::with('donations')->get()->map(function ($event) {
+        return [
+            'title' => $event->title,
+            'target' => $event->target_amount ?? 0,
+            'donated' => $event->donations->sum('amount'),
+            'date' => $event->event_date,
+        ];
+    });
+
+    return view('admin.reports', compact(
+        'totalUsers', 'newUsers', 'totalStaff',
+        'totalDonations', 'monthlyDonations',
+        'recentUsers', 'recentDonations', 'events'
+    ));
 }
 //cost
 public function costManagement(Request $request)

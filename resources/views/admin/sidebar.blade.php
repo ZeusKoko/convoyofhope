@@ -24,11 +24,11 @@
 </a></li>
 
         <li><a href="{{ route('admin.cost') }}"> <i class="fa fa-bar-chart"></i>Cost Management</a></li>
-        <li><a href=""> <i class="icon-padnote"></i> Reports Generation</a></li>
+        <li><a href="{{route('admin.reports')}}"> <i class="icon-padnote"></i> Reports Generation</a></li>
 
             </ul>
         </li>
-        <li><a href=""> <i class="icon-logout"></i>Login page </a></li>
+        
     </ul><span class="heading"> system management
 </span>
     <ul class="list-unstyled">
